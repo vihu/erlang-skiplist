@@ -1,0 +1,16 @@
+[package]
+name = "native"
+version = "0.0.1"
+authors = [ "Rahul Garg <rg@vihu.dev>" ]
+license = "Apache-2.0"
+edition = "2021"
+build = "native/build.rs"
+
+[lib]
+name = "native"
+crate-type = ["dylib"]
+path = "native/lib.rs"
+
+[dependencies]
+rustler = { git = "https://github.com/vihu/rustler.git", branch = "rg/unload-upgrade" }
+skiplist = "0.4.0"
