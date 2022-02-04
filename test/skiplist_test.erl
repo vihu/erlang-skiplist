@@ -48,12 +48,12 @@ insert_test() ->
     ?assertEqual({ok, 100}, skiplist:front(SL)),
     ?assertEqual({ok, 200}, skiplist:back(SL)),
 
-    ?assertEqual({ok, 100}, skiplist:get(SL, 0)),
-    ?assertEqual({ok, 200}, skiplist:get(SL, 1)),
+    ?assertEqual({ok, 100}, skiplist:nth(SL, 0)),
+    ?assertEqual({ok, 200}, skiplist:nth(SL, 1)),
 
     {ok, 100} = skiplist:pop_front(SL),
-    ?assertEqual({ok, 200}, skiplist:get(SL, 0)),
-    ?assertEqual({error, undefined}, skiplist:get(SL, 1)),
+    ?assertEqual({ok, 200}, skiplist:nth(SL, 0)),
+    ?assertEqual({error, index_out_of_bounds}, skiplist:nth(SL, 1)),
     ?assertEqual(1, skiplist:len(SL)),
 
     ok = skiplist:insert(SL, 100, 1),
@@ -103,7 +103,7 @@ contains_and_remove_test() ->
 
     {error, index_out_of_bounds} = skiplist:remove(SL, 2),
     {ok, 200} = skiplist:remove(SL, 1),
-    {ok, 100} = skiplist:get(SL, 0),
+    {ok, 100} = skiplist:nth(SL, 0),
     {ok, 100} = skiplist:remove(SL, 0),
     ?assertEqual(0, skiplist:len(SL)),
 
@@ -126,5 +126,23 @@ dedup_test() ->
     ?assertEqual(11, length(lists:usort(skiplist:to_list(SL)))),
     ok = skiplist:dedup(SL),
     ?assertEqual(10, length(lists:usort(skiplist:to_list(SL)))),
+
+    ok.
+
+modify_test() ->
+    {ok, SL} = skiplist:new(),
+
+    ok = skiplist:insert(SL, 100, 0),
+    ok = skiplist:insert(SL, 200, 1),
+
+    {ok, 100} = skiplist:nth(SL, 0),
+    {ok, 200} = skiplist:nth(SL, 1),
+    ?assertEqual(2, skiplist:len(SL)),
+
+    ok = skiplist:modify(SL, 300, 0),
+    {ok, 300} = skiplist:nth(SL, 0),
+    {error, index_out_of_bounds} = skiplist:nth(SL, 3),
+
+    ?assertEqual(2, skiplist:len(SL)),
 
     ok.

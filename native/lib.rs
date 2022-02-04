@@ -33,6 +33,7 @@ rustler::init!(
         skiplist::remove_skiplist,
         skiplist::contains_skiplist,
         skiplist::dedup_skiplist,
+        skiplist::modify_skiplist,
     ],
     load = Some(load),
     upgrade = Some(upgrade),

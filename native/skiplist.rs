@@ -89,7 +89,7 @@ pub fn get_skiplist(sl_arc: ResourceArc<SkiplistRes>, index: usize) -> NifResult
 
     match sl.get(index) {
         Some(val) => Ok((atoms::ok(), *val)),
-        None => Err(Error::Term(Box::new(atoms::undefined()))),
+        None => Err(Error::Term(Box::new(atoms::index_out_of_bounds()))),
     }
 }
 
@@ -122,4 +122,18 @@ pub fn dedup_skiplist(sl_arc: ResourceArc<SkiplistRes>) -> NifResult<Atom> {
     let mut sl = sl_arc.write();
     sl.dedup();
     Ok(atoms::ok())
+}
+
+#[rustler::nif(name = "modify_skiplist")]
+pub fn modify_skiplist(sl_arc: ResourceArc<SkiplistRes>, value: i64, index: usize) -> NifResult<Atom> {
+    let mut sl = sl_arc.write();
+
+    match sl.get_mut(index) {
+        Some(v) => {
+            *v = value;
+            Ok(atoms::ok())
+        }
+        None => Err(Error::Term(Box::new(atoms::index_out_of_bounds()))),
+    }
+
 }

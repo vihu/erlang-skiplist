@@ -13,11 +13,12 @@
     insert/3,
     front/1,
     back/1,
-    get/2,
+    nth/2,
     remove/2,
     to_list/1,
     contains/2,
-    dedup/1
+    dedup/1,
+    modify/3
 ]).
 
 -spec new() -> {ok, reference()} | {error, any()}.
@@ -64,8 +65,8 @@ front(Skiplist) ->
 back(Skiplist) ->
     skiplist_nif:back_skiplist(Skiplist).
 
--spec get(Skiplist :: reference(), Index :: non_neg_integer()) -> {ok, integer()} | {error, any()}.
-get(Skiplist, Index) ->
+-spec nth(Skiplist :: reference(), Index :: non_neg_integer()) -> {ok, integer()} | {error, any()}.
+nth(Skiplist, Index) ->
     skiplist_nif:get_skiplist(Skiplist, Index).
 
 -spec remove(Skiplist :: reference(), Index :: non_neg_integer()) ->
@@ -90,7 +91,7 @@ to_list(Skiplist) ->
     lists:reverse(
         lists:foldl(
             fun(I, Acc) ->
-                case ?MODULE:get(Skiplist, I) of
+                case ?MODULE:nth(Skiplist, I) of
                     {ok, Value} -> [Value | Acc];
                     {error, _} -> Acc
                 end
@@ -107,3 +108,8 @@ contains(Skiplist, Value) ->
 -spec dedup(Skiplist :: reference()) -> ok.
 dedup(Skiplist) ->
     skiplist_nif:dedup_skiplist(Skiplist).
+
+-spec modify(Skiplist :: reference(), Value :: integer(), Index :: non_neg_integer()) ->
+    ok | {error, any()}.
+modify(Skiplist, Value, Index) ->
+    skiplist_nif:modify_skiplist(Skiplist, Value, Index).

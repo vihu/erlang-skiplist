@@ -15,7 +15,8 @@
     get_skiplist/2,
     remove_skiplist/2,
     contains_skiplist/2,
-    dedup_skiplist/1
+    dedup_skiplist/1,
+    modify_skiplist/3
 ]).
 
 %% Native lib support
@@ -85,6 +86,11 @@ insert_skiplist(_Skiplist, _Value, _Index) ->
 
 -spec dedup_skiplist(Skiplist :: reference()) -> ok.
 dedup_skiplist(_Skiplist) ->
+    not_loaded(?LINE).
+
+-spec modify_skiplist(Skiplist :: reference(), Value :: integer(), Index :: non_neg_integer()) ->
+    ok | {error, any()}.
+modify_skiplist(_Skiplist, _Value, _Index) ->
     not_loaded(?LINE).
 
 %% ==================================================================
