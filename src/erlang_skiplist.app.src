@@ -9,6 +9,7 @@
   {env,[]},
   {modules, []},
 
+  {maintainers, ["Rahul Garg"]},
   {licenses, ["Apache 2.0"]},
-  {links, []}
+  {links, [{"Github", "https://github.com/vihu/erlang-skiplist"}]}
  ]}.

@@ -1,3 +1,5 @@
+%% @doc Internal module for interacting with the Rust side.
+
 -module(skiplist_nif).
 
 -export([
