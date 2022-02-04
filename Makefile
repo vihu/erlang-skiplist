@@ -30,3 +30,6 @@ shell:
 
 typecheck:
 	$(REBAR) dialyzer
+
+ci:compile
+	$(REBAR) dialyzer && $(REBAR) as test do eunit && $(REBAR) as test ct --verbose
