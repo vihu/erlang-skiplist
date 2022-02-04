@@ -10,6 +10,6 @@
   {modules, []},
 
   {maintainers, ["Rahul Garg"]},
-  {licenses, ["Apache 2.0"]},
+  {licenses, ["Apache-2.0"]},
   {links, [{"Github", "https://github.com/vihu/erlang-skiplist"}]}
  ]}.
